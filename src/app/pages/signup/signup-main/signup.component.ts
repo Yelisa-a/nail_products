@@ -1,6 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { User } from '../../../shared/models/User';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { UserService } from '../../../shared/services/user/user.service';
@@ -11,47 +17,40 @@ import { UserService } from '../../../shared/services/user/user.service';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit {
-  signUpForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
-    rePassword: new FormControl(''),
-    name: new FormGroup({
-      firstname: new FormControl(''),
-      lastname: new FormControl(''),
-    }),
-  });
+  public signUpForm: FormGroup;
+
+  public firstnameControl: FormControl;
+  public lastnameControl: FormControl;
 
   constructor(
+    private fb: FormBuilder,
     private location: Location,
     private authService: AuthService,
     private userService: UserService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.initFormGroup();
+  }
 
   onSubmit() {
     console.log(this.signUpForm.value);
     this.authService
-      .signup(
-        this.signUpForm.get('email')?.value as string,
-        this.signUpForm.get('password')?.value as string
-      )
+      .signup(this.signUpForm.value.email, this.signUpForm.value.password)
       .then((cred) => {
         console.log(cred);
         const user: User = {
           id: cred.user?.uid as string,
-          email: this.signUpForm.get('email')?.value as string,
-          username: (this.signUpForm.get('email')?.value as string).split(
-            '@'
-          )[0],
+          email: this.signUpForm.value.email,
+          username: this.signUpForm.value.email.split('@')[0],
           name: {
-            firstname: this.signUpForm.get('name.firstname')?.value as string,
-            lastname: this.signUpForm.get('name.lastname')?.value as string,
+            firstname: this.signUpForm.value.name.firstname,
+            lastname: this.signUpForm.value.name.lastname,
           },
         };
         this.userService
           .create(user)
-          .then((_) => {
+          .then(() => {
             console.log('User added successfully.');
           })
           .catch((error) => {
@@ -65,5 +64,22 @@ export class SignupComponent implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  private initFormGroup(): void {
+    this.signUpForm = this.fb.group({
+      email: this.fb.control(null, Validators.required),
+      password: this.fb.control(null, Validators.required),
+      rePassword: this.fb.control(null, Validators.required),
+      name: this.fb.group({
+        firstname: this.fb.control(null, Validators.required),
+        lastname: this.fb.control(null, Validators.required),
+      }),
+    });
+
+    this.firstnameControl = this.signUpForm.get(
+      'name.firstname'
+    ) as FormControl;
+    this.lastnameControl = this.signUpForm.get('name.lastname') as FormControl;
   }
 }

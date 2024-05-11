@@ -1,51 +1,53 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './shared/guards/auth.guard';
+import { urls } from './shared/urls';
 
 // lazy-loading
 const routes: Routes = [
   {
-    path: 'main',
+    path: '',
+    redirectTo: '/' + urls.LOGIN,
+    pathMatch: 'full',
+  },
+  {
+    path: urls.MAIN,
     loadChildren: () =>
       import('./pages/main/main.module').then((m) => m.MainModule),
     canActivate: [AuthGuard],
   },
   {
-    path: 'gallery',
+    path: urls.PRODUCTS,
     loadChildren: () =>
-      import('./pages/gallery/gallery.module').then((m) => m.GalleryModule),
+      import('./pages/products/products.module').then((m) => m.ProductsModule),
     canActivate: [AuthGuard],
   },
   {
-    path: 'contact',
+    path: urls.CONTACT,
     loadChildren: () =>
       import('./pages/contact/contact.module').then((m) => m.ContactModule),
   },
   {
-    path: 'not-found',
+    path: urls.NOT_FOUND,
     loadChildren: () =>
       import('./pages/not-found/not-found.module').then(
         (m) => m.NotFoundModule
       ),
   },
   {
-    path: '',
-    redirectTo: '/login',
-    pathMatch: 'full',
-  },
-  {
-    path: 'login',
+    path: urls.LOGIN,
     loadChildren: () =>
       import('./pages/login/login.module').then((m) => m.LoginModule),
   },
   {
-    path: 'signup',
+    path: urls.SIGNUP,
     loadChildren: () =>
       import('./pages/signup/signup.module').then((m) => m.SignupModule),
   },
   {
     path: '**',
-    redirectTo: '/not-found',
+    redirectTo: '/' + urls.NOT_FOUND,
+    pathMatch: 'full',
   },
 ];
 

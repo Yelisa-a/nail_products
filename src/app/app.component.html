@@ -1,12 +1,11 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav>
     <app-menu
-      (selectedPage)="changePage($event)"
-      [currentPage]="page"
       *ngIf="page"
+      (onLogout)="logout()"
       (onCloseSidenav)="onClose($event, sidenav)"
+      [currentPage]="page"
       [loggedInUser]="loggedInUser"
-      (onLogout)="logout($event)"
     ></app-menu>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -16,7 +15,7 @@
           <mat-icon>menu</mat-icon>
         </button>
       </div>
-      <div>GALLERY-APP</div>
+      <div>Nail Products Webshop</div>
       <div class="navigation-wrapper">
         <ul class="navigation-items">
           <li *ngIf="!loggedInUser"><a routerLink="/login">Login</a></li>
@@ -25,7 +24,7 @@
           </li>
           <li><a routerLink="/signup">Register</a></li>
           <li><a routerLink="/main">Main</a></li>
-          <li><a routerLink="/gallery">Gallery</a></li>
+          <li><a routerLink="/products">Products</a></li>
           <li><a routerLink="/contact">Contact</a></li>
         </ul>
       </div>

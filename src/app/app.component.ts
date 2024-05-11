@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { catchError, filter, lastValueFrom, tap, throwError } from 'rxjs';
 import { AuthService } from './shared/services/auth/auth.service';
 
 @Component({
@@ -17,36 +17,8 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
-    // fat-arrow
-    this.routes = this.router.config.map((conf) => conf.path) as string[];
-
-    // rxjs - reaktív programozás
-    // subscribe
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((evts: any) => {
-        const currentPage = (evts.urlAfterRedirects as string).split(
-          '/'
-        )[1] as string;
-        if (this.routes.includes(currentPage)) {
-          this.page = currentPage;
-        }
-      });
-    this.authService.isUserLoggedIn().subscribe(
-      (user) => {
-        console.log(user);
-        this.loggedInUser = user;
-        localStorage.setItem('user', JSON.stringify(this.loggedInUser));
-      },
-      (error) => {
-        console.error(error);
-        localStorage.setItem('user', JSON.stringify('null'));
-      }
-    );
-  }
-
-  changePage(selectedPage: string) {
-    this.router.navigateByUrl(selectedPage);
+    this.setCurrentPage();
+    this.setLoggedInUser();
   }
 
   onToggleSidenav(sidenav: MatSidenav) {
@@ -59,7 +31,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  logout(_?: boolean) {
+  logout() {
     this.authService
       .logout()
       .then(() => {
@@ -68,5 +40,39 @@ export class AppComponent implements OnInit {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  private async setCurrentPage(): Promise<void> {
+    this.routes = this.router.config.map((conf) => conf.path) as string[];
+    await lastValueFrom(
+      this.router.events.pipe(
+        filter((event) => event instanceof NavigationEnd),
+        tap((evts: any) => {
+          const currentPage = (evts.urlAfterRedirects as string).split(
+            '/'
+          )[1] as string;
+          if (this.routes.includes(currentPage)) {
+            this.page = currentPage;
+          }
+        })
+      )
+    );
+  }
+
+  private async setLoggedInUser(): Promise<void> {
+    await lastValueFrom(
+      this.authService.isUserLoggedIn().pipe(
+        tap((user) => {
+          console.log(user);
+          this.loggedInUser = user;
+          localStorage.setItem('user', JSON.stringify(this.loggedInUser));
+        }),
+        catchError((error) => {
+          console.error(error);
+          localStorage.removeItem('user');
+          return throwError(() => new Error(error));
+        })
+      )
+    );
   }
 }
