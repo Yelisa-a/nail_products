@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "nail-products": {
+      "hosting": {
+        "nail_products": [
+          "nail-products"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "nail-products"
+  }
+}
