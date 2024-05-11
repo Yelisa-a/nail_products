@@ -1,11 +1,8 @@
 {
   "hosting": {
-    "public": "(public)",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
+    "target": "nail_products",
+    "public": "dist/nail_products",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
   },
   "database": {
     "rules": "database.rules.json"
