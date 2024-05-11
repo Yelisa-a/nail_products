@@ -1,14 +1,14 @@
 {
   "targets": {
-    "nail-products": {
+    "webfejl-2022": {
       "hosting": {
-        "nail_products": [
-          "nail-products"
+        "week-04": [
+          "webfejl-2022"
         ]
       }
     }
   },
   "projects": {
-    "default": "nail-products"
+    "default": "webfejl-2022"
   }
 }
