@@ -6,7 +6,7 @@ import { Observable, map } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private adminUserEmail: string = 'asd@asd.com';
+  public adminUserEmail: string = 'asd@asd.com';
 
   constructor(private auth: AngularFireAuth) {}
 

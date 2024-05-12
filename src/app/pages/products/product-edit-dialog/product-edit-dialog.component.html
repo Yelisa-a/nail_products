@@ -29,12 +29,17 @@
           formControlName="imageUrl"
           placeholder="Select image url"
         >
-          <mat-option [value]="images.BOXED">Boxed</mat-option>
-          <mat-option [value]="images.BOTTLED">Bottled</mat-option>
+          <mat-option [value]="images['BOXED']">Boxed</mat-option>
+          <mat-option [value]="images['BOTTLED']">Bottled</mat-option>
         </mat-select>
       </mat-form-field>
       <div class="d-flex">
-        <span class="buttons w-100">
+        <span
+          class="buttons w-100"
+          [matTooltip]="
+            productFormGroup.invalid ? 'Az input mezők valamelyike hibás' : ''
+          "
+        >
           <button
             [disabled]="productFormGroup.invalid"
             mat-raised-button

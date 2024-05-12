@@ -13,6 +13,7 @@ import { CustomCurrencyPipe } from '../../shared/pipes/custom-currency.pipe';
 import { ProductEditDialogComponent } from './product-edit-dialog/product-edit-dialog.component';
 import { ProductsComponent } from './products-main/products.component';
 import { ProductsRoutingModule } from './products-routing.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [ProductsComponent, ProductEditDialogComponent],
@@ -28,6 +29,7 @@ import { ProductsRoutingModule } from './products-routing.module';
     MatInputModule,
     MatOptionModule,
     MatSelectModule,
+    MatTooltipModule,
   ],
   providers: [CurrencyPipe],
 })

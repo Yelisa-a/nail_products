@@ -20,7 +20,14 @@
   </mat-form-field>
   <span>
     <span>
-      <button mat-raised-button color="primary" (click)="login()">Login</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="login()"
+        [matTooltip]="'Pssst! Admin user is: ' + authService.adminUserEmail"
+      >
+        Login
+      </button>
     </span>
     <span>
       <button mat-raised-button color="primary" [routerLink]="'/signup'">
