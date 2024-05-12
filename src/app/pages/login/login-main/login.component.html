@@ -24,7 +24,11 @@
         mat-raised-button
         color="primary"
         (click)="login()"
-        [matTooltip]="'Pssst! Admin user is: ' + authService.adminUserEmail"
+        [matTooltip]="
+          'Pssst! Admin user is: ' +
+          authService.adminUserEmail +
+          ' with password: asd123'
+        "
       >
         Login
       </button>
