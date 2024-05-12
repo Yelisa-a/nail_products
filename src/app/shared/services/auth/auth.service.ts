@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private adminUserEmail: string = 'asd@asd.com';
+
   constructor(private auth: AngularFireAuth) {}
 
   login(email: string, password: string) {
@@ -17,6 +20,14 @@ export class AuthService {
 
   isUserLoggedIn() {
     return this.auth.user;
+  }
+
+  isAdminUserLoggedIn(): Observable<boolean> {
+    return this.isUserLoggedIn().pipe(
+      map((value) => {
+        return value?.email === this.adminUserEmail;
+      })
+    );
   }
 
   logout() {

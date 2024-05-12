@@ -1,10 +1,66 @@
 <div class="container">
-  <h1>Products</h1>
-  <div class="row">
-    <div class="col-12 col-lg-3">{{ "asd" | currency }}</div>
-    <div class="col-12 col-lg-3">asd</div>
-    <div class="col-12 col-lg-3">asd</div>
-    <div class="col-12 col-lg-3">asd</div>
-    <div class="col-12 col-lg-3">asd</div>
+  <h1>
+    Products
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="btn btn-primary ms-2"
+      *ngIf="isAdminUserLoggedIn"
+      (click)="openDialog()"
+    >
+      Create product
+    </button>
+  </h1>
+  <div class="row g-3">
+    <div
+      class="col-12 col-md-4 col-lg-3"
+      *ngFor="let nailProduct of nailProducts"
+    >
+      <mat-card class="card">
+        <mat-card-title class="card-title px-3 pt-3">
+          {{ nailProduct.name }}
+        </mat-card-title>
+        <mat-card-content>
+          <div class="img-holder">
+            <img matCardImage [src]="nailProduct.imageUrl" />
+          </div>
+          <div class="details-holder">
+            <p>{{ nailProduct.description }}</p>
+          </div>
+          <p class="price">{{ nailProduct.price | customCurrency }}</p>
+          <div class="d-grid gap-3">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              class="btn btn-primary"
+            >
+              Add to cart
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              class="btn btn-primary"
+              *ngIf="isAdminUserLoggedIn"
+              (click)="openDialog(nailProduct)"
+            >
+              Edit product
+            </button>
+            <button
+              mat-raised-button
+              color="warn"
+              type="submit"
+              class="btn btn-danger"
+              *ngIf="isAdminUserLoggedIn"
+              (click)="deleteProduct(nailProduct.id)"
+            >
+              Delete product
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>

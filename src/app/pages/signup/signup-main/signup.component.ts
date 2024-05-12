@@ -1,15 +1,16 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { User } from '../../../shared/models/User';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { UserService } from '../../../shared/services/user/user.service';
+import { urls } from '../../../shared/urls';
 
 @Component({
   selector: 'app-signup',
@@ -24,6 +25,7 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private location: Location,
     private authService: AuthService,
     private userService: UserService
@@ -52,6 +54,7 @@ export class SignupComponent implements OnInit {
           .create(user)
           .then(() => {
             console.log('User added successfully.');
+            this.router.navigateByUrl('/' + urls.MAIN);
           })
           .catch((error) => {
             console.error(error);

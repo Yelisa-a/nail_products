@@ -39,3 +39,16 @@ mat-sidenav {
     display: none;
   }
 }
+
+.main_component {
+  height: 100vh;
+
+  .content-holder {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+}
+
+.mat-toolbar {
+  position: absolute;
+}

@@ -1,34 +1,42 @@
-<mat-sidenav-container>
-  <mat-sidenav #sidenav>
-    <app-menu
-      *ngIf="page"
-      (onLogout)="logout()"
-      (onCloseSidenav)="onClose($event, sidenav)"
-      [currentPage]="page"
-      [loggedInUser]="loggedInUser"
-    ></app-menu>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <div class="hamburger-menu-wrapper">
-        <button mat-icon-button (click)="onToggleSidenav(sidenav)">
-          <mat-icon>menu</mat-icon>
-        </button>
+<div class="main_component">
+  <mat-sidenav-container class="h-100">
+    <mat-sidenav #sidenav>
+      <app-menu
+        *ngIf="page"
+        (onLogout)="logout()"
+        (onCloseSidenav)="onClose($event, sidenav)"
+        [currentPage]="page"
+        [loggedInUser]="loggedInUser"
+      ></app-menu>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <div class="hamburger-menu-wrapper">
+          <button mat-icon-button (click)="onToggleSidenav(sidenav)">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+        <div>Nail Products Webshop</div>
+        <div class="navigation-wrapper ms-auto">
+          <ul class="navigation-items">
+            <li *ngIf="!loggedInUser"><a routerLink="/login">Login</a></li>
+            <li *ngIf="loggedInUser">
+              <span class="mx-2">
+                Logged in as:
+                {{ loggedInUser.email }}
+              </span>
+              <a routerLink="/login" (click)="logout()">Logout</a>
+            </li>
+            <li><a routerLink="/signup">Register</a></li>
+            <li><a routerLink="/main">Main</a></li>
+            <li><a routerLink="/products">Products</a></li>
+            <li><a routerLink="/contact">Contact</a></li>
+          </ul>
+        </div>
+      </mat-toolbar>
+      <div class="content-holder h-100">
+        <router-outlet></router-outlet>
       </div>
-      <div>Nail Products Webshop</div>
-      <div class="navigation-wrapper">
-        <ul class="navigation-items">
-          <li *ngIf="!loggedInUser"><a routerLink="/login">Login</a></li>
-          <li *ngIf="loggedInUser">
-            <a routerLink="/login" (click)="logout()">Logout</a>
-          </li>
-          <li><a routerLink="/signup">Register</a></li>
-          <li><a routerLink="/main">Main</a></li>
-          <li><a routerLink="/products">Products</a></li>
-          <li><a routerLink="/contact">Contact</a></li>
-        </ul>
-      </div>
-    </mat-toolbar>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

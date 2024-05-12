@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>
+  {{ product ? "Edit product with id: " + product.id : "Create product" }}
+</h2>
+<mat-dialog-content>
+  <form [formGroup]="productFormGroup" (ngSubmit)="onSubmit()">
+    <div class="div-flex">
+      <mat-form-field>
+        <mat-label for="name">Name:</mat-label>
+        <input matInput type="text" formControlName="name" />
+        <mat-error *ngIf="productFormGroup.controls['name']?.invalid">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="description">Description:</mat-label>
+        <input matInput type="text" formControlName="description" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="price">Price:</mat-label>
+        <input matInput type="number" formControlName="price" />
+        <mat-error *ngIf="productFormGroup.controls['price']?.invalid">
+          Price is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label for="imageUrl">Image url:</mat-label>
+        <mat-select
+          matNativeControl
+          formControlName="imageUrl"
+          placeholder="Select image url"
+        >
+          <mat-option [value]="images.BOXED">Boxed</mat-option>
+          <mat-option [value]="images.BOTTLED">Bottled</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="d-flex">
+        <span class="buttons w-100">
+          <button
+            [disabled]="productFormGroup.invalid"
+            mat-raised-button
+            mat-dialog-close
+            color="primary"
+            type="submit"
+          >
+            {{ product ? "Update" : "Create" }}
+          </button>
+        </span>
+        <span class="buttons w-100">
+          <button
+            mat-raised-button
+            mat-dialog-close
+            color="primary"
+            (click)="dialogRef.close(null)"
+          >
+            Close
+          </button>
+        </span>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
